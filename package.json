@@ -1,6 +1,6 @@
 {
   "name": "@oleksii-pavlov/collections",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The list of utils for collections",
   "main": "./build/index.js",
   "repository": {
