@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "The list of utils for collections",
   "main": "./build/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Alekseypavlov14/oleksii-pavlov-collections"
+  },
   "scripts": {
     "test": "jest ./src/tests --watchAll",
     "build": "tsc"
