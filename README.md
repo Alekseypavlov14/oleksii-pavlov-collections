@@ -2,14 +2,14 @@
 
 ## Introduction
 
-This npm package provides two classes, `Collection` and `Range`, designed to facilitate common operations on collections of data and ranges of values, respectively. These classes offer a variety of methods for manipulating and querying data, making it easier to work with collections and ranges in JavaScript and TypeScript applications.
+This npm package provides a `Collection` class designed to facilitate common operations on collections of data. The `Collection` class offers a variety of methods for manipulating and querying data, making it easier to work with collections in JavaScript and TypeScript applications.
 
 ## Installation
 
 You can install the package via npm by running the following command:
 
 ```bash
-npm i @oleksii-pavlov/collections
+npm install @oleksii-pavlov/collections
 ```
 
 ## Usage
@@ -67,25 +67,114 @@ console.log(sortedBooks.getItems());
 //   { name: 'Book A', price: 20 },
 //   { name: 'Book C', price: 25 }
 // ]
-
 ```
 
-### Range Class
+## API Reference
 
-The `Range` class represents a range of values and provides methods for working with ranges. Here's how you can use it:
+### Collection Class
+
+#### Constructor
 
 ```typescript
-import { Range } from '@oleksii-pavlov/collections';
+constructor(items: T[])
+```
 
-// Create a range
-const range = new Range({ min: 0, max: 10 });
+Initializes a `Collection` instance with the specified array of items.
 
-// Check if a value is within the range
-console.log(range.isGreaterThanMinAndLessThanMax(5)); // true
-console.log(range.isGreaterThanMinAndLessThanMax(15)); // false
+#### Methods
 
-// Get the intersection of two ranges
-const otherRangeValues = { min: 5, max: 15 };
-const intersection = range.getIntersection(otherRangeValues);
-console.log(intersection); // { min: 5, max: 10 }
+##### `getItems()`
+
+```typescript
+getItems(): T[]
+```
+
+Returns the array of items in the collection.
+
+##### `getMaximumBy(selector: (item: T) => number): T | null`
+
+```typescript
+getMaximumBy(selector: (item: T) => number): T | null
+```
+
+Finds and returns the item with the maximum value determined by the selector function. If the collection is empty, it returns `null`.
+
+##### `filterByGreaterThan(selector: (item: T) => number, threshold: number): Collection<T>`
+
+```typescript
+filterByGreaterThan(selector: (item: T) => number, threshold: number): Collection<T>
+```
+
+Filters the items in the collection, returning a new `Collection` instance containing items where the value selected by the selector function is greater than the specified threshold.
+
+##### `sortAscendingBy(selector: (item: T) => number): Collection<T>`
+
+```typescript
+sortAscendingBy(selector: (item: T) => number): Collection<T>
+```
+
+Sorts the items in the collection in ascending order based on the value determined by the selector function, returning a new `Collection` instance with the sorted items.
+
+## Examples
+
+### Initializing a Collection
+
+```typescript
+import { Collection } from '@oleksii-pavlov/collections';
+
+interface Book {
+  name: string;
+  price: number;
+}
+
+const books: Book[] = [
+  { name: 'Book A', price: 20 },
+  { name: 'Book B', price: 15 },
+  { name: 'Book C', price: 25 },
+];
+
+const bookCollection = new Collection(books);
+```
+
+### Getting Items from a Collection
+
+```typescript
+const bookItems = bookCollection.getItems();
+console.log(bookItems);
+// Output: [
+//   { name: 'Book A', price: 20 },
+//   { name: 'Book B', price: 15 },
+//   { name: 'Book C', price: 25 }
+// ]
+```
+
+### Finding the Item with the Maximum Value
+
+```typescript
+const mostExpensiveBook = bookCollection.getMaximumBy(book => book.price);
+console.log(mostExpensiveBook);
+// Output: { name: 'Book C', price: 25 }
+```
+
+### Filtering Items by a Threshold
+
+```typescript
+const expensiveBooks = bookCollection.filterByGreaterThan(book => book.price, 20);
+console.log(expensiveBooks.getItems());
+// Output: [
+//   { name: 'Book A', price: 20 },
+//   { name: 'Book C', price: 25 }
+// ]
+```
+
+### Sorting Items in Ascending Order
+
+```typescript
+const sortedBooks = bookCollection.sortAscendingBy(book => book.price);
+console.log(sortedBooks.getItems());
+// Output: [
+//   { name: 'Book B', price: 15 },
+//   { name: 'Book A', price: 20 },
+//   { name: 'Book C', price: 25 }
+// ]
 ```
